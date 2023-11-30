@@ -1,0 +1,31 @@
+{
+  "name": "freightwebster",
+  "version": "0.1.0",
+  "private": true,
+  "license": "MIT",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@react95/core": "^6.1.6",
+    "@types/styled-components": "^5.1.32",
+    "@types/xstyled__styled-components": "^2.0.0",
+    "next": "14.0.3",
+    "react": "^18",
+    "react-dom": "^18",
+    "styled-components": "^6.1.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "eslint": "^8",
+    "eslint-config-next": "14.0.3",
+    "next-fonts": "^1.5.1",
+    "next-transpile-modules": "^10.0.1",
+    "typescript": "^5"
+  }
+}
