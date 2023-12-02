@@ -11,17 +11,19 @@
   },
   "dependencies": {
     "@react95/core": "^6.1.6",
-    "@types/styled-components": "^5.1.32",
-    "@types/xstyled__styled-components": "^2.0.0",
     "next": "14.0.3",
     "react": "^18",
     "react-dom": "^18",
-    "react95": "^4.0.0"
+    "react95": "^4.0.0",
+    "sharp": "^0.33.0",
+    "styled-components": "^6.1.1"
   },
   "devDependencies": {
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@types/styled-components": "^5.1.32",
+    "@xstyled/styled-components": "^3.8.0",
     "eslint": "^8",
     "eslint-config-next": "14.0.3",
     "next-fonts": "^1.5.1",
