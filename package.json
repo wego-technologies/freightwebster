@@ -15,12 +15,15 @@
     "react": "^18",
     "react-dom": "^18",
     "react95": "^4.0.0",
-    "sharp": "^0.33.0"
+    "sharp": "^0.33.0",
+    "styled-components": "^5.3.3"
   },
   "devDependencies": {
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@types/styled-components": "^5.1.32",
+    "@types/xstyled__styled-components": "^2.0.0",
     "eslint": "^8",
     "eslint-config-next": "14.0.3",
     "next-fonts": "^1.5.1",
