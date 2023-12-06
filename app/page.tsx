@@ -32,7 +32,7 @@ export default function Home() {
         <WindowContent>
           <Toolbar style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             {/*<SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />*/}
-            <Button onClick={() => { }}>+</Button>
+            <Button onClick={() => { }}>Add New Term</Button>
           </Toolbar>
           <div style={{ display: 'flex', height: '100%' }}>
             {/*<TermList terms={filteredTerms} selectedTerm={selectedTerm} setSelectedTerm={setSelectedTerm} />
