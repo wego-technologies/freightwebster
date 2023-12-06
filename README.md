@@ -1,4 +1,6 @@
-## FreightWebster is your digital guide to freight terminology with Windows 95 UI
+## FreightWebster 
+
+Your digital guide to freight terminology with Windows 95 UI
 
 Using [React95](https://github.com/react95-io/React95)
 
