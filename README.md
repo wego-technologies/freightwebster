@@ -1,3 +1,7 @@
+##FreightWebster is your digital guide to freight terminology with Windows 95 UI
+
+Using [React95](https://github.com/react95-io/React95)
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
