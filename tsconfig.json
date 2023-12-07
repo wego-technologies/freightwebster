@@ -7,7 +7,7 @@
     "strict": false,
     "noEmit": true,
     "esModuleInterop": true,
-    "module": "next",
+    "module": "esnext",
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
