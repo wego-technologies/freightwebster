@@ -21,11 +21,12 @@ export default function Home() {
       <GlobalStyles />
       <Window style={{ fontFamily: 'MS', width: '100%', height: '100%', boxSizing: 'border-box', margin: 0, padding: 0 }}>
         <WindowHeader>Freight Webster</WindowHeader>
-        <WindowContent style={{ height: 'calc(100% - 30px)', overflow: 'auto' }}> {/* Adjust the height as per the header */}
+        <WindowContent>
           <Toolbar style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <TextInput placeholder="Search..." width={150} />
             <Button onClick={() => { }}>Add New Term</Button>
           </Toolbar>
+          <div style={{ padding: '20px'}}>
             <GroupBox label='A'>
               <ListItem onClick={() => { }}>Accessorial Charges</ListItem>
               <ListItem onClick={() => { }}>Authority</ListItem>
@@ -40,6 +41,8 @@ export default function Home() {
               <ListItem onClick={() => { }}>Consignee</ListItem>
               <ListItem onClick={() => { }}>Consignor</ListItem>
             </GroupBox>
+          </div>
+            
           <div style={{ display: 'flex', height: '100%', overflow: 'auto' }}>
             {/* Content goes here */}
           </div>
