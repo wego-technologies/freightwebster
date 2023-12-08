@@ -36,3 +36,5 @@ function Term({ term }: any) {
     );
 }
 */
+
+export {};
