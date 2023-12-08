@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+/*import { Link } from 'react-router-dom';
 
 async function getTerms() {
     const res = await fetch('http://127.0.0.1:8090/api/collections/terms/records')
@@ -35,3 +35,4 @@ function Term({ term }: any) {
         </Link>
     );
 }
+*/
