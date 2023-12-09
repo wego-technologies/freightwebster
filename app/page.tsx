@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useState } from 'react'; // Added useState import
-import { Window, WindowContent, WindowHeader, Button, Toolbar, TextInput, GroupBox, List, ListItem, Tabs, Tab, TabBody, MenuListItem, Frame} from 'react95';
+import { Window, WindowContent, WindowHeader, Button, Toolbar, TextInput, GroupBox, List, ListItem, Tabs, Tab, TabBody, MenuListItem, Frame, Select} from 'react95';
 import { createGlobalStyle } from 'styled-components';
 import { styleReset } from 'react95';
 import { padding, width } from '@xstyled/styled-components';
@@ -34,11 +34,11 @@ export default function Home() {
               <Tab value={0}>Alphabetical</Tab>
               <Tab value={1}>Popular</Tab>
               <Tab value={2}>Category</Tab>
-              <Tab value={3}>Recent</Tab>
+              {/*<Tab value={3}>Recent</Tab>*/}
             </Tabs>
             <TabBody style={{ }}>
               {activeTab === 0 && (
-                <div style={{ overflow: 'auto' }}>
+                <div style={{ overflow: 'auto', padding: '10px' }}>
                   <GroupBox label='A'>
                     <ListItem onClick={() => { }}>Accessorial Charges</ListItem>
                     <ListItem onClick={() => { }}>Authority</ListItem>
@@ -56,28 +56,55 @@ export default function Home() {
               </div>
               )}
               {activeTab === 1 && (
-                <div style={{ overflow: 'auto' }}>
-                  <ListItem onClick={() => { }}>Double Brokering<div>18 views</div></ListItem>
-                  <ListItem onClick={() => { }}>Authority<div>6 views</div></ListItem>
+                <div style={{ overflow: 'auto'}}>
+                  <Frame variant='well' style={{ width:'100%', padding: '10px' }}>
+                    <ListItem onClick={() => { }}>Double Brokering<div>18 views</div></ListItem>
+                    <ListItem onClick={() => { }}>Authority<div>6 views</div></ListItem>
+                    <ListItem onClick={() => { }}>Carrier<div>4 views</div></ListItem>
+                    <ListItem onClick={() => { }}>Consignee<div>3 views</div></ListItem>
+                    <ListItem onClick={() => { }}>Consignor<div>2 views</div></ListItem>
+                    <ListItem onClick={() => { }}>Bill of Lading (BOL)<div>1 views</div></ListItem>
+                    <ListItem onClick={() => { }}>Bobtail<div>1 views</div></ListItem>
+                    <ListItem onClick={() => { }}>Carrier Liability<div>1 views</div></ListItem>
+                    <ListItem onClick={() => { }}>Accessorial Charges<div>1 views</div></ListItem>
+                  </Frame>
                 </div>
               )}
               {activeTab === 2 && (
                 <div style={{ overflow: 'auto' }}>
-                  <Frame variant='well' style={{ width:'100%', padding: '10px' }}>
-                  <ListItem onClick={() => { }}>Double Brokering<div>18 views</div></ListItem>
-                  <ListItem onClick={() => { }}>Authority<div>6 views</div></ListItem>
-                  </Frame>
+                  <div>
+                    <Select defaultValue="Carriers" width={"100%"} options={[
+                      { value: "Carriers", label: "Carriers" },
+                      { value: "Shippers", label: "Shippers" },
+                      { value: "Brokers", label: "Brokers" },
+                      { value: "Customs", label: "Customs" },
+                      { value: "Warehousing", label: "Warehousing" },
+                      { value: "Intermodal", label: "Intermodal" },
+                      { value: "Compliance", label: "Compliance" },
+                    ]} />
+                  </div>
+                  <div>
+                    <ListItem onClick={() => { }}>Authority</ListItem>
+                    <ListItem onClick={() => { }}>Backhaul</ListItem>
+                    <ListItem onClick={() => { }}>Cargo Weight</ListItem>
+                    <ListItem onClick={() => { }}>Deadhead</ListItem>
+                    <ListItem onClick={() => { }}>Dispatcher</ListItem>
+                    <ListItem onClick={() => { }}>DOT Number</ListItem>
+                    <ListItem onClick={() => { }}>Dry Van</ListItem>
+                    <ListItem onClick={() => { }}>Fuel Surcharge</ListItem>
+                    <ListItem onClick={() => { }}>Hours of Service (HOS)</ListItem>
+                    <ListItem onClick={() => { }}>IFTA</ListItem>
+                    <ListItem onClick={() => { }}>Load Assignment</ListItem>
+                    <ListItem onClick={() => { }}>MC Number</ListItem>
+                    <ListItem onClick={() => { }}>Owner-Operator</ListItem>
+                    <ListItem onClick={() => { }}>P&D</ListItem>
+                    <ListItem onClick={() => { }}>Tare Weight</ListItem>
+                    <ListItem onClick={() => { }}>Trailer Interchange Agreement</ListItem>
+                  </div>
                 </div>
               )}
             </TabBody>
           </div>
-          {/*<div style={{ padding: '20px'}}>
-            
-          </div>
-          <div style={{ display: 'flex', height: '100%', overflow: 'auto' }}>
-
-          </div>
-          */}
         </WindowContent>
       </Window>
     </>
