@@ -5,12 +5,25 @@
   "license": "MIT",
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "prisma generate && next build",
+    "db:generate": "prisma generate",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "format": "prettier --write \"./**/*.{js,jsx,ts,tsx,css,md,json}\""
+  },
+  "prettier": {
+    "trailingComma": "es5",
+    "tabWidth": 2,
+    "semi": false,
+    "singleQuote": true,
+    "printWidth": 100,
+    "endOfLine": "lf",
+    "sqlKeywordCase": "lower"
   },
   "dependencies": {
+    "@prisma/client": "^5.7.0",
     "@react95/core": "^6.1.6",
+    "@react95/icons": "^2.0.8",
     "@xstyled/styled-components": "^3.8.0",
     "next": "14.0.3",
     "react": "^18",
@@ -30,6 +43,8 @@
     "eslint-config-next": "14.0.3",
     "next-fonts": "^1.5.1",
     "next-transpile-modules": "^10.0.1",
+    "prettier": "^2.8.7",
+    "prisma": "^5.7.0",
     "typescript": "^5"
   }
 }
