@@ -11,14 +11,34 @@ datasource db {
 }
 
 model Glossary {
-    id         Int     @id @default(autoincrement())
-    term       String  @unique @db.VarChar(255)
-    definition String  @db.Text
-    views      Int     @default(0)
-    visible    Boolean @default(false)
+    id                 Int                @id @default(autoincrement())
+    term               String             @unique @db.VarChar(255)
+    definition         String             @db.Text
+    views              Int                @default(0)
+    visible            Boolean            @default(false)
+    glossaryCategories GlossaryCategory[]
 
     createdAt DateTime @default(now()) @map("created_at")
 
     @@index([term], name: "term")
     @@map("glossary")
+}
+
+model GlossaryCategory {
+    glossary   Glossary @relation(fields: [glossaryId], references: [id])
+    glossaryId Int
+    category   Category @relation(fields: [categoryId], references: [id])
+    categoryId Int
+
+    @@id([glossaryId, categoryId])
+    @@map("glossary_category_asc")
+}
+
+model Category {
+    id                 Int                @id @default(autoincrement())
+    name               String             @unique @db.VarChar(255)
+    description        String             @db.Text
+    glossaryCategories GlossaryCategory[]
+
+    @@map("category")
 }
