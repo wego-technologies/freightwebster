@@ -1,10 +1,11 @@
 "use client"
 
-import React, { useState } from 'react'; // Added useState import
+import React, { useCallback, useEffect, useState } from 'react'; // Added useState import
 import { Window, WindowContent, WindowHeader, Button, Toolbar, TextInput, GroupBox, List, ListItem, Tabs, Tab, TabBody, MenuListItem, Frame, Select} from 'react95';
 import { createGlobalStyle } from 'styled-components';
 import { styleReset } from 'react95';
 import { padding, width } from '@xstyled/styled-components';
+import getTerms, {groupByFirstLetter, TermData} from '@/hooks/get-terms';
 
 const GlobalStyles = createGlobalStyle`
   ${styleReset}
@@ -17,7 +18,25 @@ const GlobalStyles = createGlobalStyle`
 `;
 
 export default function Home() {
-  const [activeTab, setActiveTab] = useState(0); // Added this line
+  const [activeTab, setActiveTab] = useState<'term' | 'createdAt' | 'views'>('term');
+  const [search, setSearch] = useState<string>('');
+
+  const [data, setData] = useState<TermData[] | null>(null);
+  const [groupedData, setGroupedData] = useState<{ [key: string]: TermData[] } | null>(null);
+
+  const fetchData = useCallback(async () => {
+    const response = await getTerms(activeTab, search);
+    setData(response);
+    if (activeTab === "term" && response) {
+      setGroupedData(groupByFirstLetter(response));
+    } else {
+      setGroupedData(null);
+    }
+  }, [activeTab, search]); // Dependencies array
+  
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
 
   return (
     <>
@@ -26,51 +45,44 @@ export default function Home() {
         <WindowHeader>Freight Webster</WindowHeader>
         <WindowContent>
           <Toolbar style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <TextInput placeholder="Search..." width={150} />
+            <TextInput
+              placeholder="Search..."
+              width={150}
+              value={search}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearch(e.target.value)}
+            />
             <Button onClick={() => { }}>Add New Term</Button>
           </Toolbar>
           <div style={{ paddingTop: '20px'}}>
             <Tabs value={activeTab} onChange={(value) => setActiveTab(value)}> {/* Updated this line */}
-              <Tab value={0}>Alphabetical</Tab>
-              <Tab value={1}>Popular</Tab>
-              <Tab value={2}>Category</Tab>
+              <Tab value={"term"}>Alphabetical</Tab>
+              <Tab value={"views"}>Popular</Tab>
+              <Tab value={"createdAt"}>Category</Tab>
               {/*<Tab value={3}>Recent</Tab>*/}
             </Tabs>
             <TabBody style={{ }}>
-              {activeTab === 0 && (
-                <div style={{ overflow: 'auto', padding: '10px' }}>
-                  <GroupBox label='A'>
-                    <ListItem onClick={() => { }}>Accessorial Charges</ListItem>
-                    <ListItem onClick={() => { }}>Authority</ListItem>
-                  </GroupBox>
-                  <GroupBox label='B'>
-                    <ListItem onClick={() => { }}>Bill of Lading (BOL)</ListItem>
-                    <ListItem onClick={() => { }}>Bobtail</ListItem>
-                  </GroupBox>
-                  <GroupBox label='C'>
-                    <ListItem onClick={() => { }}>Carrier</ListItem>
-                    <ListItem onClick={() => { }}>Carrier Liability</ListItem>
-                    <ListItem onClick={() => { }}>Consignee</ListItem>
-                    <ListItem onClick={() => { }}>Consignor</ListItem>
-                  </GroupBox>
-              </div>
-              )}
-              {activeTab === 1 && (
+              {activeTab === "term" && groupedData && Object.keys(groupedData).map(letter => (
+                <GroupBox key={letter} label={letter}>
+                  {groupedData[letter].map((item: TermData) => (
+                    <ListItem key={item.term} onClick={() => { /* your click handler */ }}>
+                      {item.term}
+                    </ListItem>
+                  ))}
+                </GroupBox>
+              ))
+              }
+              {activeTab === "views" && (
                 <div style={{ overflow: 'auto'}}>
                   <Frame variant='well' style={{ width:'100%', padding: '10px' }}>
-                    <ListItem onClick={() => { }}>Double Brokering<div>18 views</div></ListItem>
-                    <ListItem onClick={() => { }}>Authority<div>6 views</div></ListItem>
-                    <ListItem onClick={() => { }}>Carrier<div>4 views</div></ListItem>
-                    <ListItem onClick={() => { }}>Consignee<div>3 views</div></ListItem>
-                    <ListItem onClick={() => { }}>Consignor<div>2 views</div></ListItem>
-                    <ListItem onClick={() => { }}>Bill of Lading (BOL)<div>1 views</div></ListItem>
-                    <ListItem onClick={() => { }}>Bobtail<div>1 views</div></ListItem>
-                    <ListItem onClick={() => { }}>Carrier Liability<div>1 views</div></ListItem>
-                    <ListItem onClick={() => { }}>Accessorial Charges<div>1 views</div></ListItem>
+                    {data && data.map((termData) => (
+                      <ListItem key={termData.term} onClick={() => { }}>
+                        {termData.term}<div>{termData.views} view{termData.views !== 1 ? 's' : ''}</div>
+                      </ListItem>
+                    ))}
                   </Frame>
                 </div>
               )}
-              {activeTab === 2 && (
+              {activeTab === "createdAt" && (
                 <div style={{ overflow: 'auto' }}>
                   <div>
                     <Select defaultValue="Carriers" width={"100%"} options={[
