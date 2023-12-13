@@ -53,6 +53,15 @@ export default function Home() {
                     <ListItem onClick={() => { }}>Consignee</ListItem>
                     <ListItem onClick={() => { }}>Consignor</ListItem>
                   </GroupBox>
+                  <GroupBox label='D'>
+                    <ListItem onClick={() => { }}>Deadhead</ListItem>
+                    <ListItem onClick={() => { }}>Delivery Window</ListItem>
+                    <ListItem onClick={() => { }}>Detention Pay</ListItem>
+                    <ListItem onClick={() => { }}>Dock Receipt</ListItem>
+                    <ListItem onClick={() => { }}>Double Brokering</ListItem>
+                    <ListItem onClick={() => { }}>Drayage</ListItem>
+                    <ListItem onClick={() => { }}>Dry Van</ListItem>
+                  </GroupBox>
               </div>
               )}
               {activeTab === 1 && (
