@@ -23,6 +23,7 @@
   "dependencies": {
     "@prisma/client": "^5.7.0",
     "@react95/core": "^6.1.6",
+    "@vercel/analytics": "^1.1.1",
     "@xstyled/styled-components": "^3.8.0",
     "next": "14.0.3",
     "react": "^18",

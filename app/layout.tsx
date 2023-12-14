@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
-//import { Inter } from "next/font/google";
 import Provider from "@/components/provider";
-
-//const inter = Inter({ subsets: ["latin"] });
+import { Analytics } from '@vercel/analytics/react';
 
 export const metadata: Metadata = {
   title: "Freight Webster",
@@ -16,8 +14,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning={true}>
-      <body /*className={inter.className}*/ suppressHydrationWarning={true}>
+      <body suppressHydrationWarning={true}>
         <Provider>{children}</Provider>
+        <Analytics />
       </body>
     </html>
   );
