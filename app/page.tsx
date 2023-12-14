@@ -51,7 +51,7 @@ export default function Home() {
       <GlobalStyles />
       <Window style={{ fontFamily: 'MS', width: '100%', minHeight: '100vh', boxSizing: 'border-box', margin: 0, padding: 0, overflow: 'auto' }}>
         <WindowHeader>Freight Webster</WindowHeader>
-        <WindowContent>
+        <WindowContent style={{ paddingTop: '10px' }}>
           <Toolbar style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <h1 style={{ fontSize: '1.8rem', fontWeight: 'bold', fontStyle: 'italic', color: 'rgb(132, 133, 132)', textShadow: 'white 2px 2px' }}>Glossary</h1>
             <Button onClick={() => setIsFormVisible(true)}>Request New Term</Button> {/* Updated this line */}
