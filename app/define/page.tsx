@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useCallback, useEffect, useState } from 'react'; // Added useState import
-import { Window, WindowContent, WindowHeader, Button, Toolbar, TextInput, GroupBox, List, ListItem, Tabs, Tab, TabBody, MenuListItem, Frame, Select} from 'react95';
+import { Window, WindowContent, WindowHeader, Button, Toolbar, TextInput, GroupBox, List, ListItem, Tabs, Tab, TabBody, MenuList, MenuListItem, Separator, Frame, Select} from 'react95';
 import { createGlobalStyle } from 'styled-components';
 import { styleReset } from 'react95';
 import { padding, width } from '@xstyled/styled-components';
@@ -45,80 +45,27 @@ export default function Home() {
         <WindowHeader>Freight Webster</WindowHeader>
         <WindowContent>
           <Toolbar style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <TextInput
-              placeholder="Search..."
-              width={150}
-              value={search}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearch(e.target.value)}
-            />
-            <Button onClick={() => { }}>Add New Term</Button>
+            <Button onClick={() => { }}>Back to Glossary</Button>
+            <Frame variant='well' className='footer' style={{ padding: '6px' }}>Page Views: 3</Frame>
           </Toolbar>
           <div style={{ paddingTop: '20px'}}>
-            <Tabs value={activeTab} onChange={(value) => setActiveTab(value)}> {/* Updated this line */}
-              <Tab value={"term"}>Alphabetical</Tab>
-              <Tab value={"views"}>Popular</Tab>
-              <Tab value={"createdAt"}>Category</Tab>
-              {/*<Tab value={3}>Recent</Tab>*/}
-            </Tabs>
-            <TabBody style={{ }}>
-              {activeTab === "term" && groupedData && Object.keys(groupedData).map(letter => (
-                <GroupBox key={letter} label={letter}>
-                  {groupedData[letter].map((item: TermData) => (
-                    <ListItem key={item.term} onClick={() => { /* your click handler */ }}>
-                      {item.term}
-                    </ListItem>
-                  ))}
-                </GroupBox>
-              ))
-              }
-              {activeTab === "views" && (
-                <div style={{ overflow: 'auto'}}>
-                  <Frame variant='well' style={{ width:'100%', padding: '10px' }}>
-                    {data && data.map((termData) => (
-                      <ListItem key={termData.term} onClick={() => { }}>
-                        {termData.term}<div>{termData.views} view{termData.views !== 1 ? 's' : ''}</div>
-                      </ListItem>
-                    ))}
-                  </Frame>
-                </div>
-              )}
-              {activeTab === "createdAt" && (
-                <div style={{ overflow: 'auto' }}>
-                  <div>
-                    <Select defaultValue="Carriers" width={"100%"} options={[
-                      { value: "Carriers", label: "Carriers" },
-                      { value: "Shippers", label: "Shippers" },
-                      { value: "Brokers", label: "Brokers" },
-                      { value: "Customs", label: "Customs" },
-                      { value: "Warehousing", label: "Warehousing" },
-                      { value: "Intermodal", label: "Intermodal" },
-                      { value: "Compliance", label: "Compliance" },
-                    ]} />
-                  </div>
-                  <div>
-                    <ListItem onClick={() => { }}>Authority</ListItem>
-                    <ListItem onClick={() => { }}>Backhaul</ListItem>
-                    <ListItem onClick={() => { }}>Cargo Weight</ListItem>
-                    <ListItem onClick={() => { }}>Deadhead</ListItem>
-                    <ListItem onClick={() => { }}>Dispatcher</ListItem>
-                    <ListItem onClick={() => { }}>DOT Number</ListItem>
-                    <ListItem onClick={() => { }}>Dry Van</ListItem>
-                    <ListItem onClick={() => { }}>Fuel Surcharge</ListItem>
-                    <ListItem onClick={() => { }}>Hours of Service (HOS)</ListItem>
-                    <ListItem onClick={() => { }}>IFTA</ListItem>
-                    <ListItem onClick={() => { }}>Load Assignment</ListItem>
-                    <ListItem onClick={() => { }}>MC Number</ListItem>
-                    <ListItem onClick={() => { }}>Owner-Operator</ListItem>
-                    <ListItem onClick={() => { }}>P&D</ListItem>
-                    <ListItem onClick={() => { }}>Tare Weight</ListItem>
-                    <ListItem onClick={() => { }}>Trailer Interchange Agreement</ListItem>
-                  </div>
-                </div>
-              )}
-            </TabBody>
+          <h1 style={{ fontSize: '1.8rem', fontWeight: 'bold', fontStyle: 'italic', color: 'rgb(132, 133, 132)', textShadow: 'white 2px 2px' }}>Bill of Lading (BOL)</h1>
+            <GroupBox>
+              <p>A document issued by a carrier to a shipper, signed by the captain, agent, or owner of a vessel, furnishing written evidence regarding receipt of the goods (cargo), the conditions on which transportation is made (contract of carriage), and the engagement to deliver goods at the prescribed port of destination to the lawful holder of the bill of lading.</p>
+            </GroupBox>
           </div>
         </WindowContent>
+        <div style={{ position: 'absolute', bottom: 0, width: '100%' }}>
+          <MenuList style={{ display: 'flex', justifyContent: 'space-between' }}>
+              <MenuListItem style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center' }} onClick={() => { }}>Previous Term: Term Name</MenuListItem>
+              <Separator orientation='vertical' size='43px' />
+              <MenuListItem style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center' }} onClick={() => { }}>Next Term: Term Name</MenuListItem>
+          </MenuList>
+        </div>
       </Window>
     </>
   );
 }
+
+
+

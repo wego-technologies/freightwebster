@@ -53,14 +53,16 @@ export default function Home() {
         <WindowHeader>Freight Webster</WindowHeader>
         <WindowContent>
           <Toolbar style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <TextInput
-              placeholder="Search..."
-              width={150}
-              value={search}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearch(e.target.value)}
-            />
+            <h1 style={{ fontSize: '1.8rem', fontWeight: 'bold', fontStyle: 'italic', color: 'rgb(132, 133, 132)', textShadow: 'white 2px 2px' }}>Glossary</h1>
             <Button onClick={() => setIsFormVisible(true)}>Request New Term</Button> {/* Updated this line */}
           </Toolbar>
+          <div style={{ paddingTop: '10px' }}>
+            <TextInput
+                placeholder="Search..."
+                value={search}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearch(e.target.value)}
+              />
+          </div>
           <div style={{ paddingTop: '20px'}}>
             <Tabs value={activeTab} onChange={(value) => setActiveTab(value)}> {/* Updated this line */}
               <Tab value={"term"}>Alphabetical</Tab>
