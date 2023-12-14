@@ -2,8 +2,8 @@ import { NextResponse, NextRequest } from 'next/server'
 import prisma from '@/prisma/client';
 
 export async function GET(req: NextRequest) {
-    const searchTerm = req.nextUrl.searchParams.get("term");
-    const orderBy = req.nextUrl.searchParams.get("orderBy") || 'term';
+    const searchTerm = req.nextUrl.searchParams.get("search");
+    const orderBy = req.nextUrl.searchParams.get("sortBy") || 'term';
 
     if (orderBy !== 'views' && orderBy !== 'createdAt' && orderBy !== 'term') {
         return NextResponse.json({ message: 'Invalid order by parameter', status: 400 });
@@ -14,6 +14,7 @@ export async function GET(req: NextRequest) {
         whereClause = {
             term: {
                 contains: searchTerm,
+                mode: 'insensitive'
             },
         };
     }
@@ -25,7 +26,6 @@ export async function GET(req: NextRequest) {
         },
         select: {
             term: true,
-            definition: true,
             views: true,
             createdAt: true,
         }
