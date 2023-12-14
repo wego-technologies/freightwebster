@@ -41,7 +41,7 @@ export default function Home() {
   return (
     <>
       <GlobalStyles />
-      <Window style={{ fontFamily: 'MS', width: '100%', height: '100%', boxSizing: 'border-box', margin: 0, padding: 0 }}>
+      <Window style={{ fontFamily: 'MS', width: '100%', height: '100vh', boxSizing: 'border-box', margin: 0, padding: 0 }}>
         <WindowHeader>Freight Webster</WindowHeader>
         <WindowContent>
           <Toolbar style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
