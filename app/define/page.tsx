@@ -6,7 +6,6 @@ import { createGlobalStyle } from 'styled-components';
 import { styleReset } from 'react95';
 import { padding, width } from '@xstyled/styled-components';
 import getTerms, {groupByFirstLetter, TermData} from '@/hooks/get-terms';
-import RequestNewTerm from '@/components/request-new-term';
 
 const GlobalStyles = createGlobalStyle`
   ${styleReset}
@@ -21,9 +20,6 @@ const GlobalStyles = createGlobalStyle`
 export default function Home() {
   const [activeTab, setActiveTab] = useState<'term' | 'createdAt' | 'views'>('term');
   const [search, setSearch] = useState<string>('');
-  const [isFormVisible, setIsFormVisible] = useState<boolean>(false);
-
-  const [newTerm, setNewTerm] = useState<string>(''); // Added this line
 
   const [data, setData] = useState<TermData[] | null>(null);
   const [groupedData, setGroupedData] = useState<{ [key: string]: TermData[] } | null>(null);
@@ -42,10 +38,6 @@ export default function Home() {
     fetchData();
   }, [fetchData]);
 
-  const handleSubmit = (newTerm: string) => {
-    console.log(newTerm);
-  };
-
   return (
     <>
       <GlobalStyles />
@@ -59,13 +51,13 @@ export default function Home() {
               value={search}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearch(e.target.value)}
             />
-            <Button onClick={() => setIsFormVisible(true)}>Request New Term</Button> {/* Updated this line */}
+            <Button onClick={() => { }}>Add New Term</Button>
           </Toolbar>
           <div style={{ paddingTop: '20px'}}>
             <Tabs value={activeTab} onChange={(value) => setActiveTab(value)}> {/* Updated this line */}
               <Tab value={"term"}>Alphabetical</Tab>
               <Tab value={"views"}>Popular</Tab>
-              {/*<Tab value={"createdAt"}>Category</Tab>*/}
+              <Tab value={"createdAt"}>Category</Tab>
               {/*<Tab value={3}>Recent</Tab>*/}
             </Tabs>
             <TabBody style={{ }}>
@@ -90,7 +82,6 @@ export default function Home() {
                   </Frame>
                 </div>
               )}
-              {/*
               {activeTab === "createdAt" && (
                 <div style={{ overflow: 'auto' }}>
                   <div>
@@ -124,17 +115,8 @@ export default function Home() {
                   </div>
                 </div>
               )}
-              */}
             </TabBody>
           </div>
-          {isFormVisible && (
-          <RequestNewTerm 
-            handleSubmit={handleSubmit} 
-            newTerm={newTerm} 
-            setNewTerm={setNewTerm} 
-            setIsFormVisible={setIsFormVisible} 
-          />
-        )}
         </WindowContent>
       </Window>
     </>
