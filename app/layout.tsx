@@ -4,7 +4,7 @@ import { Analytics } from '@vercel/analytics/react';
 
 export const metadata: Metadata = {
   title: "Freight Webster",
-  description: "Digital guide to freight terminology",
+  description: "Digital dictionary for freight terms",
 };
 
 export default function RootLayout({
