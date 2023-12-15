@@ -15,6 +15,9 @@ const GlobalStyles = createGlobalStyle`
     src: url('./fonts/ms-sans-serif-1.ttf') format('truetype');
     src: url('./fonts/ms-sans-serif-1.otf') format('opentype');
   }
+  body {
+    background-color: #00807E;
+  }
 `;
 
 export default function Home() {
