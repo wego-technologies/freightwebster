@@ -1,3 +1,5 @@
+import { IndividualTermData } from '@/types/terms';
+
 export interface TermData {
   term: string;
   views: number;
@@ -24,6 +26,25 @@ const getTerms = async (
     return [];
   }
 };
+
+export const getIndividualTerm = async (term: string, orderBy: string): Promise<IndividualTermData | null> => {
+  try {    
+    const queryParams = `?term=${encodeURIComponent(term)}&orderBy=${orderBy}`;
+    console.log('queryParams', queryParams);
+    const response = await fetch(`/api/define${queryParams}`);
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const data = await response.json() as IndividualTermData;
+
+    return data;
+  } catch (error) {
+    console.error('Error fetching individual term data:', error);
+    return null;
+  }
+};
+
 
 export const groupByFirstLetter = (terms: TermData[] | null) => {
     if (!terms) return {};

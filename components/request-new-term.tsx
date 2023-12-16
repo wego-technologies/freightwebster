@@ -1,9 +1,18 @@
-import React from 'react';
+import React, { ChangeEvent, FormEvent, FormEventHandler } from 'react';
 import { Window, WindowContent, WindowHeader, Fieldset, TextField, Toolbar, Button } from 'react95';
 
-const AddTermForm = ({ handleSubmit, newTerm, setNewTerm, setIsFormVisible }) => {
-  const handleNewTermChange = (e) => {
-    setNewTerm({ ...newTerm, [e.target.name]: e.target.value });
+interface AddTermFormProps {
+  handleSubmit: FormEventHandler<HTMLFormElement>;
+  newTerm: string;
+  setNewTerm: React.Dispatch<React.SetStateAction<string>>;
+  setIsFormVisible: React.Dispatch<React.SetStateAction<boolean>>
+
+}
+
+
+const AddTermForm: React.FC<AddTermFormProps> = ({ handleSubmit, newTerm, setNewTerm, setIsFormVisible }) => {
+  const handleNewTermChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setNewTerm(e.target.value);
   };
 
   return (
@@ -16,7 +25,7 @@ const AddTermForm = ({ handleSubmit, newTerm, setNewTerm, setIsFormVisible }) =>
           <Fieldset label="Word">
             <TextField
               name="term"
-              value={newTerm.term}
+              value={newTerm}
               onChange={handleNewTermChange}
             />
           </Fieldset>

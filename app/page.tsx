@@ -1,12 +1,13 @@
 "use client"
 
-import React, { useCallback, useEffect, useState } from 'react'; // Added useState import
+import React, { FormEventHandler, useCallback, useEffect, useState } from 'react'; // Added useState import
 import { Window, WindowContent, WindowHeader, Button, Toolbar, TextInput, GroupBox, List, ListItem, Tabs, Tab, TabBody, MenuListItem, Frame, Select} from 'react95';
 import { createGlobalStyle } from 'styled-components';
 import { styleReset } from 'react95';
 import { padding, width } from '@xstyled/styled-components';
 import getTerms, {groupByFirstLetter, TermData} from '@/hooks/get-terms';
 import RequestNewTerm from '@/components/request-new-term';
+import Link from 'next/link';
 
 const GlobalStyles = createGlobalStyle`
   ${styleReset}
@@ -47,9 +48,10 @@ export default function Home() {
     fetchData();
   }, [fetchData]);
 
-  const handleSubmit = (newTerm: string) => {
-    console.log(newTerm);
-  };
+  const handleSubmit: FormEventHandler<HTMLFormElement> = (event) => {
+  event.preventDefault(); // Typically you want to prevent the default form submission
+  console.log(event);
+};
 
   return (
     <>
@@ -75,16 +77,16 @@ export default function Home() {
             <Tabs value={activeTab} onChange={(value) => setActiveTab(value)}> {/* Updated this line */}
               <Tab value={"term"}>Alphabetical</Tab>
               <Tab value={"views"}>Popular</Tab>
-              {/*<Tab value={"createdAt"}>Category</Tab>*/}
-              {/*<Tab value={3}>Recent</Tab>*/}
             </Tabs>
             <TabBody style={{ }}>
               {activeTab === "term" && groupedData && Object.keys(groupedData).map(letter => (
                 <GroupBox key={letter} label={letter}>
                   {groupedData[letter].map((item: TermData) => (
-                    <ListItem key={item.term} onClick={() => { /* your click handler */ }}>
-                      {item.term}
-                    </ListItem>
+                    <Link href={`/define?term=${item.term}&orderBy=term`} key={item.term}>
+                      <ListItem key={item.term}>
+                        {item.term}
+                      </ListItem>
+                    </Link>
                   ))}
                 </GroupBox>
               ))
@@ -92,10 +94,12 @@ export default function Home() {
               {activeTab === "views" && (
                 <div style={{ overflow: 'auto'}}>
                   <Frame variant='well' style={{ width:'100%', padding: '10px' }}>
-                    {data && data.map((termData) => (
-                      <ListItem key={termData.term} onClick={() => { }}>
-                        {termData.term}<div>{termData.views} view{termData.views !== 1 ? 's' : ''}</div>
-                      </ListItem>
+                    {data && [...data].sort((a, b) => b.views - a.views).map((termData) => (
+                      <Link href={`/define?term=${termData.term}&orderBy=views`} key={termData.term}>
+                        <ListItem key={termData.term} onClick={() => { }}>
+                          {termData.term}<div>{termData.views} view{termData.views !== 1 ? 's' : ''}</div>
+                        </ListItem>
+                      </Link>
                     ))}
                   </Frame>
                 </div>
