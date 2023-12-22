@@ -47,7 +47,7 @@ export const getIndividualTerm = async (term: string, orderBy: string): Promise<
 
 
 export const groupByFirstLetter = (terms: TermData[] | null) => {
-    if (!terms) return {};
+    if (!terms || (!Array.isArray(terms))) return [];
     
     // Group by first letter and sort terms within each group
     const grouped = terms.reduce((groups, term) => {
