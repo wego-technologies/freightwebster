@@ -26,14 +26,19 @@ export async function GET(req: NextRequest) {
         },
         select: {
             term: true,
+            slug: true,
             views: true,
             createdAt: true,
         }
     });
 
+    const res = new NextResponse();
+    res.headers.set('Cache-Control', 's-maxage=3600, stale-while-revalidate');
+
     if (!glossaryTerms.length) {
         return NextResponse.json({ message: 'No terms found', status: 404 });
     }
 
-    return NextResponse.json(glossaryTerms);
+    return NextResponse.json(glossaryTerms, res);
 }
+

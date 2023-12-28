@@ -82,7 +82,7 @@ export default function Home() {
               {activeTab === "term" && groupedData && Object.keys(groupedData).map(letter => (
                 <GroupBox key={letter} label={letter}>
                   {groupedData[letter].map((item: TermData) => (
-                    <Link href={`/define?term=${item.term}&orderBy=term`} key={item.term}>
+                    <Link href={`/define/${item.slug}?orderBy=term`} key={item.term}>
                       <ListItem key={item.term}>
                         {item.term}
                       </ListItem>
@@ -95,7 +95,7 @@ export default function Home() {
                 <div style={{ overflow: 'auto'}}>
                   <Frame variant='well' style={{ width:'100%', padding: '10px' }}>
                     {data && [...data].sort((a, b) => b.views - a.views).map((termData) => (
-                      <Link href={`/define?term=${termData.term}&orderBy=views`} key={termData.term}>
+                      <Link href={`/define/${termData.slug}?orderBy=views`} key={termData.term}>
                         <ListItem key={termData.term} onClick={() => { }}>
                           {termData.term}<div>{termData.views} view{termData.views !== 1 ? 's' : ''}</div>
                         </ListItem>

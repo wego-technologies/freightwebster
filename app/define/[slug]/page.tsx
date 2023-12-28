@@ -8,6 +8,7 @@ import { IndividualTermData } from '@/types/terms';
 import { getIndividualTerm } from '@/hooks/get-terms';
 
 import Link from 'next/link';
+import Head from 'next/head';
 
 const GlobalStyles = createGlobalStyle`
   ${styleReset}
@@ -22,7 +23,13 @@ const GlobalStyles = createGlobalStyle`
   }
 `;
 
-const Page = ({ searchParams }: { searchParams: { term: string, orderBy: string}}) => {
+interface PageProps {
+  searchParams: { term: string, orderBy: string},
+  params: { slug: string }
+}
+
+const Page = ({ searchParams, params }: PageProps) => {
+  
   const [data, setData] = useState<IndividualTermData | null>(null);
   const [validOrderBy, setValidOrderBy] = useState<'term' | 'views'>(searchParams?.orderBy === 'views' ? 'views' : 'term')
 
@@ -31,17 +38,27 @@ const Page = ({ searchParams }: { searchParams: { term: string, orderBy: string}
     setValidOrderBy(validOrderBy);
 
     const fetchData = async () => {
-      console.log(searchParams);
-      const termData = await getIndividualTerm(searchParams.term, validOrderBy);
-      console.log(termData);
+      const termData = await getIndividualTerm(params.slug, validOrderBy);
       setData(termData);
     };
 
     fetchData();
-  }, [searchParams]);
+  }, [params.slug, searchParams]);
 
   return (
     <>
+      <Head>
+        <title>Freight Webster - {data?.term}</title>
+        <meta name="description" content={data?.definition} />
+        <meta name="keywords" content={data?.term} />
+        <meta name="author" content="Freight Trust & Clearing" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="robots" content="index,follow" />
+        <meta name="googlebot" content="index,follow" />
+        <meta name="google" content="notranslate" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="theme-color" content="#00807E" />
+      </Head>
       <GlobalStyles />
       <Window style={{ fontFamily: 'MS', width: '100%', minHeight: '100vh', boxSizing: 'border-box', margin: 0, padding: 0, overflow: 'auto' }}>
         <WindowHeader>Freight Webster</WindowHeader>
@@ -64,14 +81,14 @@ const Page = ({ searchParams }: { searchParams: { term: string, orderBy: string}
             <div style={{ position: 'absolute', bottom: 0, width: '100%' }}>
               <MenuList style={{ display: 'flex', justifyContent: 'space-between' }}>
                  {data.prevTerm && (
-                  <Link style={{width: '50%'}} href={`/define?term=${data.prevTerm}&orderBy=${validOrderBy}`} key={data.prevTerm}>
-                    <MenuListItem style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%' }}>Previous Term: {data.prevTerm}</MenuListItem>
+                  <Link style={{width: '50%'}} href={`/define/${data.prevTerm.slug}?orderBy=${validOrderBy}`} key={data.prevTerm.slug}>
+                    <MenuListItem style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%' }}>Previous Term: {data.prevTerm.term}</MenuListItem>
                   </Link>
                 )}
                   <Separator orientation='vertical' size='43px' />
                 {data.nextTerm && (
-                  <Link style={{width: '50%'}} href={`/define?term=${data.nextTerm}&orderBy=${validOrderBy}`} key={data.nextTerm}>
-                    <MenuListItem style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%' }}>Next Term: {data.nextTerm}</MenuListItem>
+                  <Link style={{width: '50%'}} href={`/define/${data.nextTerm.slug}?orderBy=${validOrderBy}`} key={data.nextTerm.slug}>
+                    <MenuListItem style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%' }}>Next Term: {data.nextTerm.term}</MenuListItem>
                   </Link>
                 )}
               </MenuList>

@@ -2,41 +2,48 @@ import prisma from '@/prisma/client';
 import { IndividualTermData } from '@/types/terms';
 import { NextResponse, NextRequest } from 'next/server';
 
-export async function GET(req: NextRequest) {
-    const term = req.nextUrl.searchParams.get("term");
+export async function GET(req: NextRequest, requestParams: { params: { slug: string }}) {
+
+    const slug = requestParams.params.slug;
+    
     const orderBy = req.nextUrl.searchParams.get("orderBy") || 'term';
 
-    if (!term) {
+    if (!slug) {
         return NextResponse.json({ message: 'Missing term', status: 400 });
     }
 
     const validOrderBy = orderBy === 'views' ? 'views' : 'term';
     console.log('validOrderBy', validOrderBy);
 
-    const glossaryTerm = await dbGetTerms(term, validOrderBy);
+    const glossaryTerm = await dbGetTerms(slug, validOrderBy);
 
     if (!glossaryTerm) {
         return NextResponse.json({ message: 'Term not found', status: 404 });
     }
 
+    const res = new NextResponse();
+    res.headers.set('Cache-Control', 's-maxage=3600, stale-while-revalidate');
+
+
+
     return NextResponse.json({
         ...glossaryTerm
-    });
+    }, res);
 }
 
 
 
 const dbGetTerms = async (
-    term: string,
+    slug: string,
     orderBy: 'term' | 'views' | null
 ): Promise<IndividualTermData | null> => {
-    if (!term) {
+    if (!slug) {
         return null;
     }
 
     const glossaryTerm = await prisma.glossary.findUnique({
         where: {
-            term,
+            slug,
         },
         select: {
             term: true,
@@ -53,7 +60,7 @@ const dbGetTerms = async (
     // Increment the views count
     await prisma.glossary.update({
         where: {
-            term,
+            slug,
         },
         data: {
             views: {
@@ -69,54 +76,71 @@ const dbGetTerms = async (
         nextTerm = await prisma.glossary.findFirst({
             where: {
                 term: {
-                    gt: term,
+                    gt: glossaryTerm.term,
                 },
             },
             orderBy: {
                 term: 'asc',
             },
+            select: {
+                term: true,
+                slug: true,
+            }
+
         });
 
         prevTerm = await prisma.glossary.findFirst({
             where: {
                 term: {
-                    lt: term,
+                    lt: glossaryTerm.term,
                 },
             },
             orderBy: {
                 term: 'desc',
             },
+            select: {
+                term: true,
+                slug: true,
+            }
         });
     } else if (orderBy === 'views') {
         nextTerm = await prisma.glossary.findFirst({
             where: {
                 AND: [
                     { views: { gt: glossaryTerm.views } },
-                    { term: { not: term } } // Exclude current term
+                    { term: { not: glossaryTerm.term } }
                 ],
             },
             orderBy: {
                 views: 'asc',
             },
+            select: {
+                term: true,
+                slug: true,
+            }
         });
     
         prevTerm = await prisma.glossary.findFirst({
             where: {
                 AND: [
                     { views: { lt: glossaryTerm.views } },
-                    { term: { not: term } } // Exclude current term
+                    { term: { not: glossaryTerm.term } }
                 ],
             },
             orderBy: {
                 views: 'desc',
             },
+            select: {
+                term: true,
+                slug: true,
+            }
         });
     }
     
 
     return {
         ...glossaryTerm,
-        nextTerm: nextTerm?.term,
-        prevTerm: prevTerm?.term,
+        nextTerm: nextTerm,
+        prevTerm: prevTerm,
     };
 }
