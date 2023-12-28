@@ -51,13 +51,6 @@ const Page = ({ searchParams, params }: PageProps) => {
         <title>Freight Webster - {data?.term}</title>
         <meta name="description" content={data?.definition} />
         <meta name="keywords" content={data?.term} />
-        <meta name="author" content="Freight Trust & Clearing" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta name="robots" content="index,follow" />
-        <meta name="googlebot" content="index,follow" />
-        <meta name="google" content="notranslate" />
-        <meta name="format-detection" content="telephone=no" />
-        <meta name="theme-color" content="#00807E" />
       </Head>
       <GlobalStyles />
       <Window style={{ fontFamily: 'MS', width: '100%', minHeight: '100vh', boxSizing: 'border-box', margin: 0, padding: 0, overflow: 'auto' }}>
