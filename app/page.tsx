@@ -19,6 +19,7 @@ import {
   WindowContent,
   WindowHeader,
   styleReset,
+  Tooltip,
 } from 'react95'
 import { createGlobalStyle } from 'styled-components'
 
@@ -102,9 +103,11 @@ export default function Home() {
               Glossary
             </h1>
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <Button onClick={() => window.open('https://twitter.com/freightwebster', '_blank')}>
+              <Tooltip text='Follow us!' enterDelay={100} leaveDelay={100}>
+                <Button onClick={() => window.open('https://twitter.com/freightwebster', '_blank')}>
                 𝕏
-              </Button>
+                </Button>
+              </Tooltip>
               <Button onClick={() => setIsFormVisible(true)}>Request New Term</Button>
             </div>
           </Toolbar>
