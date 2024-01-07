@@ -50,9 +50,10 @@ export default function Home() {
 
   const fetchData = useCallback(async () => {
     const response = await getTerms(activeTab, search)
-    setData(response)
+
+    setData(response instanceof Array ? response : null)
     if (activeTab === 'term' && response) {
-      setGroupedData(groupByFirstLetter(response))
+      setGroupedData(response instanceof Array ? groupByFirstLetter(response) : null)
     } else {
       setGroupedData(null)
     }
@@ -159,10 +160,7 @@ export default function Home() {
                           [...data]
                             .sort((a, b) => b.views - a.views)
                             .map((termData) => (
-                              <Link
-                                href={`/${termData.slug}`}
-                                key={termData.term}
-                              >
+                              <Link href={`/${termData.slug}`} key={termData.term}>
                                 <MenuListItem key={termData.term} onClick={() => {}}>
                                   {termData.term}
                                   <div>
