@@ -17,7 +17,7 @@ model Glossary {
     slug       String  @unique @db.VarChar(255)
     definition String  @db.Text
     views      Int     @default(0)
-    visible    Boolean @default(false)
+    visible    Boolean @default(true) 
 
     glossaryCategories GlossaryCategory[]
 
