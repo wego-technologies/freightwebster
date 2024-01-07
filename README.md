@@ -1,4 +1,4 @@
-## FreightWebster 
+## FreightWebster
 
 Your digital guide to freight terminology with Windows 95 UI
 
