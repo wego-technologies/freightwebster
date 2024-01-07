@@ -1,6 +1,6 @@
 'use client'
 
-import Loader from '@/components/loader'
+import { Loader } from '@/components/loader'
 import RequestNewTerm from '@/components/request-new-term'
 import getTerms, { TermData, groupByFirstLetter } from '@/hooks/get-terms'
 import Link from 'next/link'

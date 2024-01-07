@@ -1,7 +1,7 @@
 import { ProgressBar } from 'react95'
 import { useEffect, useState } from 'react'
 
-export default () => {
+export const Loader = () => {
   const [percent, setPercent] = useState(0)
 
   useEffect(() => {

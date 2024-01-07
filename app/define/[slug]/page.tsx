@@ -1,6 +1,6 @@
 'use client'
 
-import Loader from '@/components/loader'
+import { Loader } from '@/components/loader'
 import { getIndividualTerm } from '@/hooks/get-terms'
 import { IndividualTermData } from '@/types/terms'
 import Head from 'next/head'
