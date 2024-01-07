@@ -133,7 +133,7 @@ export default function Home() {
                   {isLoading ? (
                     <Loader />
                   ) : !groupedData ? (
-                    <div>No results</div>
+                    <div>No Results</div>
                   ) : (
                     Object.keys(groupedData).map((letter) => (
                       <GroupBox key={letter} label={letter}>
@@ -152,7 +152,7 @@ export default function Home() {
                   {isLoading ? (
                     <Loader />
                   ) : !data ? (
-                    <div>No results</div>
+                    <div>No Results</div>
                   ) : (
                     <div style={{ overflow: 'auto' }}>
                       <Frame variant="well" style={{ width: '100%', padding: '10px' }}>
