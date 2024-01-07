@@ -42,13 +42,9 @@ interface PageProps {
 const Page = ({ searchParams, params }: PageProps) => {
   const [isLoading, setIsLoading] = useState(true)
   const [data, setData] = useState<IndividualTermData | null>(null)
-  const [validOrderBy, setValidOrderBy] = useState<'term' | 'views'>(
-    searchParams?.orderBy === 'views' ? 'views' : 'term'
-  )
 
   useEffect(() => {
     const validOrderBy = searchParams?.orderBy === 'views' ? 'views' : 'term'
-    setValidOrderBy(validOrderBy)
 
     const fetchData = async () => {
       const termData = await getIndividualTerm(params.slug, validOrderBy)
@@ -119,7 +115,7 @@ const Page = ({ searchParams, params }: PageProps) => {
                   {data.prevTerm && (
                     <Link
                       style={{ width: '50%' }}
-                      href={`/define/${data.prevTerm.slug}?orderBy=${validOrderBy}`}
+                      href={`/${data.prevTerm.slug}`}
                       key={data.prevTerm.slug}
                     >
                       <MenuListItem
@@ -139,7 +135,7 @@ const Page = ({ searchParams, params }: PageProps) => {
                   {data.nextTerm && (
                     <Link
                       style={{ width: '50%' }}
-                      href={`/define/${data.nextTerm.slug}?orderBy=${validOrderBy}`}
+                      href={`/${data.nextTerm.slug}`}
                       key={data.nextTerm.slug}
                     >
                       <MenuListItem

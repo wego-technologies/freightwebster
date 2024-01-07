@@ -57,7 +57,7 @@ export default function Home() {
       setGroupedData(null)
     }
     setIsLoading(false)
-  }, [activeTab, search]) // Dependencies array
+  }, [activeTab, search])
 
   useEffect(() => {
     fetchData()
@@ -123,7 +123,6 @@ export default function Home() {
               }}
             >
               {' '}
-              {/* Updated this line */}
               <Tab value={'term'}>Alphabetical</Tab>
               <Tab value={'views'}>Popular</Tab>
             </Tabs>
@@ -138,7 +137,7 @@ export default function Home() {
                     Object.keys(groupedData).map((letter) => (
                       <GroupBox key={letter} label={letter}>
                         {groupedData[letter].map((item: TermData) => (
-                          <Link href={`/define/${item.slug}?orderBy=term`} key={item.term}>
+                          <Link href={`/${item.slug}`} key={item.term}>
                             <MenuListItem key={item.term}>{item.term}</MenuListItem>
                           </Link>
                         ))}
@@ -161,7 +160,7 @@ export default function Home() {
                             .sort((a, b) => b.views - a.views)
                             .map((termData) => (
                               <Link
-                                href={`/define/${termData.slug}?orderBy=views`}
+                                href={`/${termData.slug}`}
                                 key={termData.term}
                               >
                                 <MenuListItem key={termData.term} onClick={() => {}}>
