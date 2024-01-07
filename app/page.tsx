@@ -1,5 +1,6 @@
 'use client'
 
+import Loader from '@/components/loader'
 import RequestNewTerm from '@/components/request-new-term'
 import getTerms, { TermData, groupByFirstLetter } from '@/hooks/get-terms'
 import Link from 'next/link'
@@ -42,6 +43,7 @@ export default function Home() {
   const [newTerm, setNewTerm] = useState<string>('') // Added this line
 
   const [data, setData] = useState<TermData[] | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
   const [groupedData, setGroupedData] = useState<{ [key: string]: TermData[] } | null>(null)
 
   const version = 'v0.1.2-beta'
@@ -54,6 +56,7 @@ export default function Home() {
     } else {
       setGroupedData(null)
     }
+    setIsLoading(false)
   }, [activeTab, search]) // Dependencies array
 
   useEffect(() => {
@@ -112,42 +115,67 @@ export default function Home() {
             />
           </div>
           <div style={{ paddingTop: '20px' }}>
-            <Tabs value={activeTab} onChange={(value) => setActiveTab(value)}>
+            <Tabs
+              value={activeTab}
+              onChange={(value) => {
+                setIsLoading(true)
+                setActiveTab(value)
+              }}
+            >
               {' '}
               {/* Updated this line */}
               <Tab value={'term'}>Alphabetical</Tab>
               <Tab value={'views'}>Popular</Tab>
             </Tabs>
             <TabBody style={{}}>
-              {activeTab === 'term' &&
-                groupedData &&
-                Object.keys(groupedData).map((letter) => (
-                  <GroupBox key={letter} label={letter}>
-                    {groupedData[letter].map((item: TermData) => (
-                      <Link href={`/define/${item.slug}?orderBy=term`} key={item.term}>
-                        <MenuListItem key={item.term}>{item.term}</MenuListItem>
-                      </Link>
-                    ))}
-                  </GroupBox>
-                ))}
-              {activeTab === 'views' && (
-                <div style={{ overflow: 'auto' }}>
-                  <Frame variant="well" style={{ width: '100%', padding: '10px' }}>
-                    {data &&
-                      [...data]
-                        .sort((a, b) => b.views - a.views)
-                        .map((termData) => (
-                          <Link href={`/define/${termData.slug}?orderBy=views`} key={termData.term}>
-                            <MenuListItem key={termData.term} onClick={() => {}}>
-                              {termData.term}
-                              <div>
-                                {termData.views} view{termData.views !== 1 ? 's' : ''}
-                              </div>
-                            </MenuListItem>
+              {activeTab === 'term' && (
+                <>
+                  {isLoading ? (
+                    <Loader />
+                  ) : !groupedData ? (
+                    <div>No results</div>
+                  ) : (
+                    Object.keys(groupedData).map((letter) => (
+                      <GroupBox key={letter} label={letter}>
+                        {groupedData[letter].map((item: TermData) => (
+                          <Link href={`/define/${item.slug}?orderBy=term`} key={item.term}>
+                            <MenuListItem key={item.term}>{item.term}</MenuListItem>
                           </Link>
                         ))}
-                  </Frame>
-                </div>
+                      </GroupBox>
+                    ))
+                  )}
+                </>
+              )}
+              {activeTab === 'views' && (
+                <>
+                  {isLoading ? (
+                    <Loader />
+                  ) : !data ? (
+                    <div>No results</div>
+                  ) : (
+                    <div style={{ overflow: 'auto' }}>
+                      <Frame variant="well" style={{ width: '100%', padding: '10px' }}>
+                        {data &&
+                          [...data]
+                            .sort((a, b) => b.views - a.views)
+                            .map((termData) => (
+                              <Link
+                                href={`/define/${termData.slug}?orderBy=views`}
+                                key={termData.term}
+                              >
+                                <MenuListItem key={termData.term} onClick={() => {}}>
+                                  {termData.term}
+                                  <div>
+                                    {termData.views} view{termData.views !== 1 ? 's' : ''}
+                                  </div>
+                                </MenuListItem>
+                              </Link>
+                            ))}
+                      </Frame>
+                    </div>
+                  )}
+                </>
               )}
             </TabBody>
           </div>

@@ -1,5 +1,6 @@
 'use client'
 
+import Loader from '@/components/loader'
 import { getIndividualTerm } from '@/hooks/get-terms'
 import { IndividualTermData } from '@/types/terms'
 import Head from 'next/head'
@@ -39,6 +40,7 @@ interface PageProps {
 }
 
 const Page = ({ searchParams, params }: PageProps) => {
+  const [isLoading, setIsLoading] = useState(true)
   const [data, setData] = useState<IndividualTermData | null>(null)
   const [validOrderBy, setValidOrderBy] = useState<'term' | 'views'>(
     searchParams?.orderBy === 'views' ? 'views' : 'term'
@@ -51,6 +53,7 @@ const Page = ({ searchParams, params }: PageProps) => {
     const fetchData = async () => {
       const termData = await getIndividualTerm(params.slug, validOrderBy)
       setData(termData)
+      setIsLoading(false)
     }
 
     fetchData()
@@ -76,80 +79,86 @@ const Page = ({ searchParams, params }: PageProps) => {
         }}
       >
         <WindowHeader>Freight Webster</WindowHeader>
-        {data && (
-          <>
-            <WindowContent>
-              <Toolbar
-                style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
-              >
-                <Link href="/">
-                  <Button>Back to Glossary</Button>
-                </Link>
-                <Frame variant="well" className="footer" style={{ padding: '6px' }}>
-                  Page Views: {data.views}
-                </Frame>
-              </Toolbar>
-              <div style={{ paddingTop: '20px' }}>
-                <h1
-                  style={{
-                    fontSize: '1.8rem',
-                    fontWeight: 'bold',
-                    fontStyle: 'italic',
-                    color: 'rgb(132, 133, 132)',
-                    textShadow: 'white 2px 2px',
-                  }}
+        {isLoading ? (
+          <WindowContent>
+            <Loader />
+          </WindowContent>
+        ) : (
+          data && (
+            <>
+              <WindowContent>
+                <Toolbar
+                  style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
                 >
-                  {data.term}
-                </h1>
-                <GroupBox>
-                  <p>{data.definition}</p>
-                </GroupBox>
+                  <Link href="/">
+                    <Button>Back to Glossary</Button>
+                  </Link>
+                  <Frame variant="well" className="footer" style={{ padding: '6px' }}>
+                    Page Views: {data.views}
+                  </Frame>
+                </Toolbar>
+                <div style={{ paddingTop: '20px' }}>
+                  <h1
+                    style={{
+                      fontSize: '1.8rem',
+                      fontWeight: 'bold',
+                      fontStyle: 'italic',
+                      color: 'rgb(132, 133, 132)',
+                      textShadow: 'white 2px 2px',
+                    }}
+                  >
+                    {data.term}
+                  </h1>
+                  <GroupBox>
+                    <p>{data.definition}</p>
+                  </GroupBox>
+                </div>
+              </WindowContent>
+              <div style={{ position: 'absolute', bottom: 0, width: '100%' }}>
+                <MenuList style={{ display: 'flex', justifyContent: 'space-between' }}>
+                  {data.prevTerm && (
+                    <Link
+                      style={{ width: '50%' }}
+                      href={`/define/${data.prevTerm.slug}?orderBy=${validOrderBy}`}
+                      key={data.prevTerm.slug}
+                    >
+                      <MenuListItem
+                        style={{
+                          flex: 1,
+                          display: 'flex',
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                          width: '100%',
+                        }}
+                      >
+                        Previous Term: {data.prevTerm.term}
+                      </MenuListItem>
+                    </Link>
+                  )}
+                  <Separator orientation="vertical" size="43px" />
+                  {data.nextTerm && (
+                    <Link
+                      style={{ width: '50%' }}
+                      href={`/define/${data.nextTerm.slug}?orderBy=${validOrderBy}`}
+                      key={data.nextTerm.slug}
+                    >
+                      <MenuListItem
+                        style={{
+                          flex: 1,
+                          display: 'flex',
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                          width: '100%',
+                        }}
+                      >
+                        Next Term: {data.nextTerm.term}
+                      </MenuListItem>
+                    </Link>
+                  )}
+                </MenuList>
               </div>
-            </WindowContent>
-            <div style={{ position: 'absolute', bottom: 0, width: '100%' }}>
-              <MenuList style={{ display: 'flex', justifyContent: 'space-between' }}>
-                {data.prevTerm && (
-                  <Link
-                    style={{ width: '50%' }}
-                    href={`/define/${data.prevTerm.slug}?orderBy=${validOrderBy}`}
-                    key={data.prevTerm.slug}
-                  >
-                    <MenuListItem
-                      style={{
-                        flex: 1,
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        width: '100%',
-                      }}
-                    >
-                      Previous Term: {data.prevTerm.term}
-                    </MenuListItem>
-                  </Link>
-                )}
-                <Separator orientation="vertical" size="43px" />
-                {data.nextTerm && (
-                  <Link
-                    style={{ width: '50%' }}
-                    href={`/define/${data.nextTerm.slug}?orderBy=${validOrderBy}`}
-                    key={data.nextTerm.slug}
-                  >
-                    <MenuListItem
-                      style={{
-                        flex: 1,
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        width: '100%',
-                      }}
-                    >
-                      Next Term: {data.nextTerm.term}
-                    </MenuListItem>
-                  </Link>
-                )}
-              </MenuList>
-            </div>
-          </>
+            </>
+          )
         )}
       </Window>
     </>
