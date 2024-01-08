@@ -26,21 +26,21 @@ const AddTermForm: React.FC<AddTermFormProps> = ({
         top: '20%',
         left: '50%',
         transform: 'translate(-50%, -20%)',
-        width: '300px',
+        //width: '300px',
       }}
     >
-      <WindowHeader>
+      <WindowHeader style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <span>Request New Term</span>
+        <Button onClick={() => setIsFormVisible(false)}></Button>
       </WindowHeader>
       <WindowContent>
         <form onSubmit={handleSubmit}>
-          <GroupBox label="Word">
-            <TextInput name="term" value={newTerm} onChange={handleNewTermChange} />
+          <GroupBox label="Term">
+            <TextInput placeholder="Enter term" name="term" value={newTerm} onChange={handleNewTermChange} />
           </GroupBox>
-          <Toolbar>
-            <Button type="disabled" disabled>
-              Add
-            </Button>
+          <Toolbar style={{ marginTop: "1rem", justifyContent: 'flex-end' }}>
+            <Button type="disabled" disabled>Add</Button>
+            <div style={{ width: '10px' }}></div>
             <Button onClick={() => setIsFormVisible(false)}>Cancel</Button>
           </Toolbar>
         </form>

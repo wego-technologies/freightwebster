@@ -47,7 +47,7 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(true)
   const [groupedData, setGroupedData] = useState<{ [key: string]: TermData[] } | null>(null)
 
-  const version = 'v0.1.2-beta'
+  const version = 'v0.1.3-beta'
 
   const fetchData = useCallback(async () => {
     const response = await getTerms(activeTab, search)
@@ -108,6 +108,7 @@ export default function Home() {
                 𝕏
                 </Button>
               </Tooltip>
+              <div style={{ width: '10px' }}></div>
               <Button onClick={() => setIsFormVisible(true)}>Request New Term</Button>
             </div>
           </Toolbar>
