@@ -2,7 +2,7 @@
 
 import { Loader } from '@/components/loader'
 import { getIndividualTerm } from '@/hooks/get-terms'
-import { IndividualTermData } from '@/types/terms'
+import { IndividualTermData } from '@/types/general'
 import Head from 'next/head'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'

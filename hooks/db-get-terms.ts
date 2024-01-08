@@ -1,5 +1,5 @@
 import prisma from '@/prisma/client'
-import { IndividualTermData } from '@/types/terms'
+import { IndividualTermData } from '@/types/general'
 
 const dbGetTerms = async (term: string): Promise<IndividualTermData | null> => {
   if (!term) {

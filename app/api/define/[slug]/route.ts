@@ -1,5 +1,5 @@
 import prisma from '@/prisma/client'
-import { IndividualTermData } from '@/types/terms'
+import { IndividualTermData } from '@/types/general'
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function GET(req: NextRequest, requestParams: { params: { slug: string } }) {
