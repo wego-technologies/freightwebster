@@ -2,6 +2,7 @@
 
 import { Loader } from '@/components/loader'
 import RequestNewTerm from '@/components/request-new-term'
+import { RequestedTab } from '@/components/tabs/RequestedTab'
 import { TermsTab } from '@/components/tabs/TermsTab'
 import { ViewsTab } from '@/components/tabs/ViewsTab'
 import getTerms, { TermData } from '@/hooks/get-terms'
@@ -128,6 +129,7 @@ export default function Home() {
                 <>
                   {activeTab === 'term' && <TermsTab data={data} />}
                   {activeTab === 'views' && <ViewsTab data={data} />}
+                  {activeTab === 'requested' && <RequestedTab />}
                 </>
               )}
             </TabBody>
