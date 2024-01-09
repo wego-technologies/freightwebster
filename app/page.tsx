@@ -57,8 +57,7 @@ export default function Home() {
   const handleSubmit: FormEventHandler<HTMLFormElement> = async (event) => {
     setLoadingNewTerm(true)
     event.preventDefault() // Typically you want to prevent the default form submission
-    console.log(event)
-    console.log(newTerm)
+
     await requestTerm(newTerm).then((res) => {
       if (res.status === 201) {
         alert('Your request has been submitted!')

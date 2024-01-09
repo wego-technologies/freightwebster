@@ -15,7 +15,7 @@ model Glossary {
 
     term       String  @unique @db.VarChar(255)
     slug       String  @unique @db.VarChar(255)
-    definition String? @db.Text
+    definition String  @db.Text
     views      Int     @default(0)
     visible    Boolean @default(true)
 
