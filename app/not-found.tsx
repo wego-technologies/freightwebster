@@ -1,17 +1,10 @@
 'use client'
 
-import { Loader } from '@/components/loader'
-import { getIndividualTerm } from '@/hooks/get-terms'
-import Head from 'next/head'
 import Link from 'next/link'
-import { useEffect, useState } from 'react'
 import {
   Button,
   Frame,
   GroupBox,
-  MenuList,
-  MenuListItem,
-  Separator,
   Toolbar,
   Window,
   WindowContent,

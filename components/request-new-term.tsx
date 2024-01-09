@@ -41,7 +41,7 @@ const AddTermForm: React.FC<AddTermFormProps> = ({
             <TextInput name="term" value={newTerm} onChange={handleNewTermChange} />
           </GroupBox>
           <Toolbar style={{ marginTop: "1rem", justifyContent: 'flex-end' }}>
-            <Button type="disabled" disabled>Add</Button>
+            <Button type="submit">Add</Button>
             <div style={{ width: '10px' }}></div>
             <Button onClick={() => setIsFormVisible(false)}>Cancel</Button>
           </Toolbar>

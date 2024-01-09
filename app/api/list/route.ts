@@ -16,6 +16,9 @@ export async function GET(req: NextRequest) {
         contains: searchTerm,
         mode: 'insensitive',
       },
+      definition: {
+        not: null,
+      },
     }
   }
 

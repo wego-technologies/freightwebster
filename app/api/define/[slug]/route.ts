@@ -41,7 +41,7 @@ const dbGetTerms = async (
 
   const glossaryTerm = await prisma.glossary.findUnique({
     where: {
-      slug,
+      slug
     },
     select: {
       term: true,
@@ -76,7 +76,7 @@ const dbGetTerms = async (
       where: {
         term: {
           gt: glossaryTerm.term,
-        },
+        },  
       },
       orderBy: {
         term: 'asc',
@@ -104,7 +104,7 @@ const dbGetTerms = async (
   } else if (orderBy === 'views') {
     nextTerm = await prisma.glossary.findFirst({
       where: {
-        AND: [{ views: { gt: glossaryTerm.views } }, { term: { not: glossaryTerm.term } }],
+        AND: [{ views: { gt: glossaryTerm.views } }, { term: { not: glossaryTerm.term } }],  
       },
       orderBy: {
         views: 'asc',

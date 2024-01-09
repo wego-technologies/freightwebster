@@ -5,7 +5,7 @@ import RequestNewTerm from '@/components/request-new-term'
 import { RequestedTab } from '@/components/tabs/RequestedTab'
 import { TermsTab } from '@/components/tabs/TermsTab'
 import { ViewsTab } from '@/components/tabs/ViewsTab'
-import getTerms, { TermData } from '@/hooks/get-terms'
+import { requestTerm } from '@/hooks/request-term'
 import { useTermsData } from '@/hooks/useTermsData'
 import { PageTab, tabToOrderMap } from '@/types/general'
 import React, { FormEventHandler, useCallback, useEffect, useState } from 'react'
@@ -44,6 +44,7 @@ export default function Home() {
   const [isFormVisible, setIsFormVisible] = useState<boolean>(false)
 
   const [newTerm, setNewTerm] = useState<string>('')
+  const [loadingNewTerm, setLoadingNewTerm] = useState<boolean>(false)
 
   const version = 'v0.1.3-beta'
 
@@ -53,9 +54,22 @@ export default function Home() {
     fetchTerms(tabToOrderMap[activeTab], search)
   }, [fetchTerms, activeTab, search])
 
-  const handleSubmit: FormEventHandler<HTMLFormElement> = (event) => {
+  const handleSubmit: FormEventHandler<HTMLFormElement> = async (event) => {
+    setLoadingNewTerm(true)
     event.preventDefault() // Typically you want to prevent the default form submission
     console.log(event)
+    console.log(newTerm)
+    await requestTerm(newTerm).then((res) => {
+      if (res.status === 201) {
+        alert('Your request has been submitted!')
+        setNewTerm('')
+        setIsFormVisible(false)
+      } else {
+        const errorMessage = res?.message || 'There was an error submitting your request. Please try again.';
+        alert(errorMessage);
+      }
+    }
+    )
   }
   //return notFound() //comment out after finishin with page not found
   return (
