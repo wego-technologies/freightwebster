@@ -69,4 +69,21 @@ export const groupByFirstLetter = (terms: TermData[] | null) => {
     }, {})
 }
 
+export const addTerm = async (term: string) => {
+  try {
+    const response = await fetch('/api/terms', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ term }),
+    })
+
+    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`)
+  } catch (error) {
+    console.error('Error adding term:', error)
+    return null
+  }
+}
+
 export default getTerms

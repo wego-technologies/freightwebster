@@ -1,21 +1,18 @@
-import React, { ChangeEvent, FormEventHandler } from 'react'
+import { addTerm } from '@/hooks/get-terms'
+import React, { useState } from 'react'
 import { Button, GroupBox, TextInput, Toolbar, Window, WindowContent, WindowHeader } from 'react95'
 
 interface AddTermFormProps {
-  handleSubmit: FormEventHandler<HTMLFormElement>
-  newTerm: string
-  setNewTerm: React.Dispatch<React.SetStateAction<string>>
-  setIsFormVisible: React.Dispatch<React.SetStateAction<boolean>>
+  onClose: () => void
 }
 
-const AddTermForm: React.FC<AddTermFormProps> = ({
-  handleSubmit,
-  newTerm,
-  setNewTerm,
-  setIsFormVisible,
-}) => {
-  const handleNewTermChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setNewTerm(e.target.value)
+const AddTermForm: React.FC<AddTermFormProps> = ({ onClose }) => {
+  const [value, setValue] = useState<string>('')
+
+  const handleAdd = () => {
+    addTerm(value)
+
+    onClose()
   }
 
   return (
@@ -29,30 +26,26 @@ const AddTermForm: React.FC<AddTermFormProps> = ({
         //width: '300px',
       }}
     >
-      <WindowHeader style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+      <WindowHeader
+        style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
+      >
         <span>Request New Term</span>
-        <Button onClick={() => setIsFormVisible(false)}>
-          <img src="/close.svg" alt="Close icon" style={{ width: '12px' }}/>
+        <Button onClick={onClose}>
+          <img src="/close.svg" alt="Close icon" style={{ width: '12px' }} />
         </Button>
       </WindowHeader>
       <WindowContent>
-        <form onSubmit={handleSubmit}>
-          <GroupBox label="Term">
-            <TextInput name="term" value={newTerm} onChange={handleNewTermChange} />
-          </GroupBox>
-          <Toolbar style={{ marginTop: "1rem", justifyContent: 'flex-end' }}>
-            <Button type="disabled" disabled>Add</Button>
-            <div style={{ width: '10px' }}></div>
-            <Button onClick={() => setIsFormVisible(false)}>Cancel</Button>
-          </Toolbar>
-        </form>
+        <GroupBox label="Term">
+          <TextInput name="term" value={value} onChange={(e) => setValue(e.target.value)} />
+        </GroupBox>
+        <Toolbar style={{ marginTop: '1rem', justifyContent: 'flex-end' }}>
+          <Button onClick={handleAdd}>Add</Button>
+          <div style={{ width: '10px' }}></div>
+          <Button onClick={onClose}>Cancel</Button>
+        </Toolbar>
       </WindowContent>
     </Window>
   )
 }
 
 export default AddTermForm
-
-
-
-

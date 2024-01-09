@@ -5,10 +5,9 @@ import RequestNewTerm from '@/components/request-new-term'
 import { RequestedTab } from '@/components/tabs/RequestedTab'
 import { TermsTab } from '@/components/tabs/TermsTab'
 import { ViewsTab } from '@/components/tabs/ViewsTab'
-import getTerms, { TermData } from '@/hooks/get-terms'
 import { useTermsData } from '@/hooks/useTermsData'
 import { PageTab, tabToOrderMap } from '@/types/general'
-import React, { FormEventHandler, useCallback, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   Button,
   Tab,
@@ -43,9 +42,7 @@ export default function Home() {
   const [search, setSearch] = useState<string>('')
   const [isFormVisible, setIsFormVisible] = useState<boolean>(false)
 
-  const [newTerm, setNewTerm] = useState<string>('')
-
-  const version = 'v0.1.3-beta'
+  const version = 'v0.1.4-beta'
 
   const { data, isLoading, fetchTerms } = useTermsData()
 
@@ -53,10 +50,6 @@ export default function Home() {
     fetchTerms(tabToOrderMap[activeTab], search)
   }, [fetchTerms, activeTab, search])
 
-  const handleSubmit: FormEventHandler<HTMLFormElement> = (event) => {
-    event.preventDefault() // Typically you want to prevent the default form submission
-    console.log(event)
-  }
   //return notFound() //comment out after finishin with page not found
   return (
     <>
@@ -127,14 +120,7 @@ export default function Home() {
               )}
             </TabBody>
           </div>
-          {isFormVisible && (
-            <RequestNewTerm
-              handleSubmit={handleSubmit}
-              newTerm={newTerm}
-              setNewTerm={setNewTerm}
-              setIsFormVisible={setIsFormVisible}
-            />
-          )}
+          {isFormVisible && <RequestNewTerm onClose={() => setIsFormVisible(false)} />}
         </WindowContent>
       </Window>
     </>
