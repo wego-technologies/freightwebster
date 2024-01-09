@@ -31,7 +31,9 @@ const AddTermForm: React.FC<AddTermFormProps> = ({
     >
       <WindowHeader style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <span>Request New Term</span>
-        <Button onClick={() => setIsFormVisible(false)}></Button>
+        <Button onClick={() => setIsFormVisible(false)}>
+          <img src="/close.svg" alt="Close icon" style={{ width: '12px' }}/>
+        </Button>
       </WindowHeader>
       <WindowContent>
         <form onSubmit={handleSubmit}>
@@ -50,3 +52,7 @@ const AddTermForm: React.FC<AddTermFormProps> = ({
 }
 
 export default AddTermForm
+
+
+
+

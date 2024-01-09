@@ -22,6 +22,7 @@ import {
   Tooltip,
 } from 'react95'
 import { createGlobalStyle } from 'styled-components'
+//import { notFound } from 'next/navigation' //comment out after finishin with page not found
 
 const GlobalStyles = createGlobalStyle`
   ${styleReset}
@@ -69,7 +70,7 @@ export default function Home() {
     event.preventDefault() // Typically you want to prevent the default form submission
     console.log(event)
   }
-
+  //return notFound() //comment out after finishin with page not found
   return (
     <>
       <GlobalStyles />
