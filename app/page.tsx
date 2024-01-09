@@ -6,6 +6,7 @@ import { RequestedTab } from '@/components/tabs/RequestedTab'
 import { TermsTab } from '@/components/tabs/TermsTab'
 import { ViewsTab } from '@/components/tabs/ViewsTab'
 import getTerms, { TermData } from '@/hooks/get-terms'
+import { useTermsData } from '@/hooks/useTermsData'
 import { PageTab, tabToOrderMap } from '@/types/general'
 import React, { FormEventHandler, useCallback, useEffect, useState } from 'react'
 import {
@@ -41,24 +42,15 @@ export default function Home() {
   const [search, setSearch] = useState<string>('')
   const [isFormVisible, setIsFormVisible] = useState<boolean>(false)
 
-  const [newTerm, setNewTerm] = useState<string>('') // Added this line
-
-  const [data, setData] = useState<TermData[] | null>(null)
-  const [isLoading, setIsLoading] = useState(true)
+  const [newTerm, setNewTerm] = useState<string>('')
 
   const version = 'v0.1.3-beta'
 
-  const fetchData = useCallback(async () => {
-    setIsLoading(true)
-    const response = await getTerms(tabToOrderMap[activeTab], search)
-
-    setData(response instanceof Array ? response : null)
-    setIsLoading(false)
-  }, [activeTab, search])
+  const { data, isLoading, fetchTerms } = useTermsData()
 
   useEffect(() => {
-    fetchData()
-  }, [fetchData])
+    fetchTerms(tabToOrderMap[activeTab], search)
+  }, [fetchTerms, activeTab, search])
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault() // Typically you want to prevent the default form submission
