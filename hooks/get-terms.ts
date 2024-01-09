@@ -1,4 +1,4 @@
-import { IndividualTermData } from '@/types/terms'
+import { IndividualTermData, OrderBy } from '@/types/general'
 
 export interface TermData {
   term: string
@@ -7,7 +7,7 @@ export interface TermData {
   createdAt: Date
 }
 
-const getTerms = async (sortBy: 'term' | 'createdAt' | 'views', search?: string) => {
+const getTerms = async (sortBy: OrderBy, search?: string) => {
   try {
     let queryParams = `?sortBy=${sortBy}`
     if (search && search.length > 0) {
@@ -19,7 +19,7 @@ const getTerms = async (sortBy: 'term' | 'createdAt' | 'views', search?: string)
     }
 
     const data = await response.json()
-    
+
     return data as TermData[]
   } catch (error) {
     console.error(error)

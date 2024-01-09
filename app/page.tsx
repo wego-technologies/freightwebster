@@ -2,24 +2,25 @@
 
 import { Loader } from '@/components/loader'
 import RequestNewTerm from '@/components/request-new-term'
-import getTerms, { TermData, groupByFirstLetter } from '@/hooks/get-terms'
-import Link from 'next/link'
-import React, { FormEventHandler, useCallback, useEffect, useState } from 'react' // Added useState import
+import { RequestedTab } from '@/components/tabs/RequestedTab'
+import { TermsTab } from '@/components/tabs/TermsTab'
+import { ViewsTab } from '@/components/tabs/ViewsTab'
+import getTerms, { TermData } from '@/hooks/get-terms'
+import { useTermsData } from '@/hooks/useTermsData'
+import { PageTab, tabToOrderMap } from '@/types/general'
+import React, { FormEventHandler, useCallback, useEffect, useState } from 'react'
 import {
   Button,
-  Frame,
-  GroupBox,
-  MenuListItem,
   Tab,
   TabBody,
   Tabs,
   TextInput,
   Toolbar,
+  Tooltip,
   Window,
   WindowContent,
   WindowHeader,
   styleReset,
-  Tooltip,
 } from 'react95'
 import { createGlobalStyle } from 'styled-components'
 //import { notFound } from 'next/navigation' //comment out after finishin with page not found
@@ -38,33 +39,19 @@ const GlobalStyles = createGlobalStyle`
 `
 
 export default function Home() {
-  const [activeTab, setActiveTab] = useState<'term' | 'createdAt' | 'views'>('term')
+  const [activeTab, setActiveTab] = useState<PageTab>('term')
   const [search, setSearch] = useState<string>('')
   const [isFormVisible, setIsFormVisible] = useState<boolean>(false)
 
-  const [newTerm, setNewTerm] = useState<string>('') // Added this line
-
-  const [data, setData] = useState<TermData[] | null>(null)
-  const [isLoading, setIsLoading] = useState(true)
-  const [groupedData, setGroupedData] = useState<{ [key: string]: TermData[] } | null>(null)
+  const [newTerm, setNewTerm] = useState<string>('')
 
   const version = 'v0.1.3-beta'
 
-  const fetchData = useCallback(async () => {
-    const response = await getTerms(activeTab, search)
-
-    setData(response instanceof Array ? response : null)
-    if (activeTab === 'term' && response) {
-      setGroupedData(response instanceof Array ? groupByFirstLetter(response) : null)
-    } else {
-      setGroupedData(null)
-    }
-    setIsLoading(false)
-  }, [activeTab, search])
+  const { data, isLoading, fetchTerms } = useTermsData()
 
   useEffect(() => {
-    fetchData()
-  }, [fetchData])
+    fetchTerms(tabToOrderMap[activeTab], search)
+  }, [fetchTerms, activeTab, search])
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault() // Typically you want to prevent the default form submission
@@ -104,9 +91,9 @@ export default function Home() {
               Glossary
             </h1>
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <Tooltip text='Follow us!' enterDelay={100} leaveDelay={100}>
+              <Tooltip text="Follow us!" enterDelay={100} leaveDelay={100}>
                 <Button onClick={() => window.open('https://twitter.com/freightwebster', '_blank')}>
-                𝕏
+                  𝕏
                 </Button>
               </Tooltip>
               <div style={{ width: '10px' }}></div>
@@ -121,62 +108,21 @@ export default function Home() {
             />
           </div>
           <div style={{ paddingTop: '20px' }}>
-            <Tabs
-              value={activeTab}
-              onChange={(value) => {
-                setIsLoading(true)
-                setActiveTab(value)
-              }}
-            >
-              {' '}
+            <Tabs value={activeTab} onChange={setActiveTab}>
               <Tab value={'term'}>Alphabetical</Tab>
               <Tab value={'views'}>Popular</Tab>
+              <Tab value={'requested'}>Requested</Tab>
             </Tabs>
             <TabBody style={{}}>
-              {activeTab === 'term' && (
+              {isLoading ? (
+                <Loader />
+              ) : !data || data.length === 0 ? (
+                <div>No Results</div>
+              ) : (
                 <>
-                  {isLoading ? (
-                    <Loader />
-                  ) : !groupedData ? (
-                    <div>No Results</div>
-                  ) : (
-                    Object.keys(groupedData).map((letter) => (
-                      <GroupBox key={letter} label={letter}>
-                        {groupedData[letter].map((item: TermData) => (
-                          <Link href={`/${item.slug}`} key={item.term}>
-                            <MenuListItem key={item.term}>{item.term}</MenuListItem>
-                          </Link>
-                        ))}
-                      </GroupBox>
-                    ))
-                  )}
-                </>
-              )}
-              {activeTab === 'views' && (
-                <>
-                  {isLoading ? (
-                    <Loader />
-                  ) : !data ? (
-                    <div>No Results</div>
-                  ) : (
-                    <div style={{ overflow: 'auto' }}>
-                      <Frame variant="well" style={{ width: '100%', padding: '10px' }}>
-                        {data &&
-                          [...data]
-                            .sort((a, b) => b.views - a.views)
-                            .map((termData) => (
-                              <Link href={`/${termData.slug}`} key={termData.term}>
-                                <MenuListItem key={termData.term} onClick={() => {}}>
-                                  {termData.term}
-                                  <div>
-                                    {termData.views} view{termData.views !== 1 ? 's' : ''}
-                                  </div>
-                                </MenuListItem>
-                              </Link>
-                            ))}
-                      </Frame>
-                    </div>
-                  )}
+                  {activeTab === 'term' && <TermsTab data={data} />}
+                  {activeTab === 'views' && <ViewsTab data={data} />}
+                  {activeTab === 'requested' && <RequestedTab />}
                 </>
               )}
             </TabBody>
