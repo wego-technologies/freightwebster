@@ -5,6 +5,7 @@ export interface TermData {
   slug: string
   views: number
   createdAt: Date
+  definition: string
 }
 
 const getTerms = async (sortBy: OrderBy, search?: string) => {

@@ -4,6 +4,7 @@ import { Loader } from '@/components/loader'
 import { getIndividualTerm } from '@/hooks/get-terms'
 import { IndividualTermData } from '@/types/general'
 import Head from 'next/head'
+import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import {
@@ -20,6 +21,7 @@ import {
   styleReset,
 } from 'react95'
 import { createGlobalStyle } from 'styled-components'
+import NotFound from '../not-found'
 
 const GlobalStyles = createGlobalStyle`
   ${styleReset}
@@ -54,6 +56,8 @@ const Page = ({ searchParams, params }: PageProps) => {
 
     fetchData()
   }, [params.slug, searchParams])
+
+  if (!isLoading && !data?.term) return <NotFound />
 
   return (
     <>
@@ -106,7 +110,28 @@ const Page = ({ searchParams, params }: PageProps) => {
                     {data.term}
                   </h1>
                   <GroupBox>
-                    <p>{data.definition}</p>
+                    {data.definition ? (
+                      <p>{data.definition}</p>
+                    ) : (
+                      <div
+                        style={{
+                          display: 'flex',
+                          flexDirection: 'column',
+                          alignItems: 'center',
+                          gap: '8px',
+                        }}
+                      >
+                        Under Construction of Definition
+                        <Image
+                          priority
+                          style={{ opacity: '0.6' }}
+                          src={'/under-construction.webp'}
+                          width={600}
+                          height={400}
+                          alt={'Under construction'}
+                        />
+                      </div>
+                    )}
                   </GroupBox>
                 </div>
               </WindowContent>

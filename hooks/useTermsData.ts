@@ -3,10 +3,22 @@ import { useCallback, useState } from 'react'
 import getTerms, { TermData } from './get-terms'
 
 interface UseTermsData {
-  data: TermData[]
+  activeTerms: TermData[]
+  requestedTerms: TermData[]
   isLoading: boolean
   isError: boolean
   fetchTerms: (orderBy: OrderBy, searchQuery?: string) => void
+}
+
+const handleData = (
+  data: TermData[] | null
+): Pick<UseTermsData, 'activeTerms' | 'requestedTerms'> => {
+  if (!data) return { activeTerms: [], requestedTerms: [] }
+
+  const activeTerms = data.filter((term) => !!term.definition)
+  const requestedTerms = data.filter((term) => !term.definition)
+
+  return { activeTerms, requestedTerms }
 }
 
 export const useTermsData = (): UseTermsData => {
@@ -24,5 +36,5 @@ export const useTermsData = (): UseTermsData => {
       .finally(() => setIsLoading(false))
   }, [])
 
-  return { data: data || [], isLoading, isError, fetchTerms }
+  return { ...handleData(data), isLoading, isError, fetchTerms }
 }

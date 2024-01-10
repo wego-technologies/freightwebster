@@ -29,6 +29,7 @@ export async function GET(req: NextRequest) {
       slug: true,
       views: true,
       createdAt: true,
+      definition: true,
     },
   })
 

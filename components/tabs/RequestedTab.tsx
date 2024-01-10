@@ -1,24 +1,24 @@
-import Image from 'next/image'
+import { TermData } from '@/hooks/get-terms'
+import { Frame, MenuListItem } from 'react95'
 
-export const RequestedTab: React.FC = () => {
+interface Props {
+  data: TermData[]
+}
+
+export const RequestedTab: React.FC<Props> = ({ data }) => {
+  if (!data || data.length === 0) return <div>No Results</div>
+
   return (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        gap: '8px',
-      }}
-    >
-      Under construction
-      <Image
-        priority
-        style={{ opacity: '0.6' }}
-        src={'/under-construction.webp'}
-        width={600}
-        height={400}
-        alt={'Under construction'}
-      />
+    <div style={{ overflow: 'auto' }}>
+      <Frame variant="well" style={{ width: '100%', padding: '10px' }}>
+        {[...data]
+          .sort((a, b) => (b.createdAt > a.createdAt ? 1 : -1))
+          .map((termData) => (
+            <MenuListItem key={termData.term} onClick={() => {}} style={{ pointerEvents: 'none' }}>
+              {termData.term}
+            </MenuListItem>
+          ))}
+      </Frame>
     </div>
   )
 }

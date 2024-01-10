@@ -16,7 +16,7 @@ export const TermsTab: React.FC<Props> = ({ data }) => {
     if (data) setGroupedData(groupByFirstLetter(data))
   }, [data])
 
-  if (!groupedData) return null
+  if (!groupedData || !data || data.length === 0) return <div>No Results</div>
 
   return Object.keys(groupedData).map((letter) => (
     <GroupBox key={letter} label={letter}>

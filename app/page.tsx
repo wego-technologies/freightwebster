@@ -44,7 +44,7 @@ export default function Home() {
 
   const version = 'v0.1.4-beta'
 
-  const { data, isLoading, fetchTerms } = useTermsData()
+  const { activeTerms, requestedTerms, isLoading, fetchTerms } = useTermsData()
 
   useEffect(() => {
     fetchTerms(tabToOrderMap[activeTab], search)
@@ -109,13 +109,11 @@ export default function Home() {
             <TabBody style={{}}>
               {isLoading ? (
                 <Loader />
-              ) : !data || data.length === 0 ? (
-                <div>No Results</div>
               ) : (
                 <>
-                  {activeTab === 'term' && <TermsTab data={data} />}
-                  {activeTab === 'views' && <ViewsTab data={data} />}
-                  {activeTab === 'requested' && <RequestedTab />}
+                  {activeTab === 'term' && <TermsTab data={activeTerms} />}
+                  {activeTab === 'views' && <ViewsTab data={activeTerms} />}
+                  {activeTab === 'requested' && <RequestedTab data={requestedTerms} />}
                 </>
               )}
             </TabBody>

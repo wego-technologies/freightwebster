@@ -10,6 +10,8 @@ interface Props {
 }
 
 export const ViewsTab: React.FC<Props> = ({ data }) => {
+  if (!data || data.length === 0) return <div>No Results</div>
+
   return (
     <div style={{ overflow: 'auto' }}>
       <Frame variant="well" style={{ width: '100%', padding: '10px' }}>
